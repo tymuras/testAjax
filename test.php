@@ -1,5 +1,5 @@
-<script id="idForm"  src="jquery.js"></script>
-<form method="get" action="page.html">
+<script type="text/javascript" src="jquery.js"></script>
+<form id="test_form" method="get" action="page.html">
     <input type="hidden" name="field1" value="value1" />
     <input type="hidden" name="field2" value="value2" />
     <select name="status">
@@ -9,27 +9,37 @@
     </select>
 	 <input id="submitButtonId" type="button" name="field2" value="Go" />
 </form>
-
+<a href="http://www.w3schools.com/">Visit W3Schools</a>
 <script>
+	
+function callAjax(ajax_url, post_data, callback)
+{
+    $.ajax
+    (
+        {
+            type: "POST",
+            url: ajax_url,
+            data: post_data,
+            dataType: "json",
+            async: true,
+            cache:false,
+            success: callback
+        }
+    );
+}
+ 
+// succes method
+ function successMethod(data){ console.debug(data)}
+	
 
 $(document).ready(function() {
 	// this is the id of the submit button
-	$("#submitButtonId").click(function() {
-
-		var url = "ajax.php"; // the script where you handle the form input.
-
-		$.ajax({
-			   type: "POST",
-			   url: url,
-			   data: $("#idForm").serialize(), // serializes the form's elements.
-			   'dataType': 'json',
-			   success: function(data)
-			   {
-				   console.debug(data['HTTP_HOST']);
-			   }
-			 });
-
-		return false; // avoid to execute the actual submit of the form.
+	$("#submitButtonId").click(function() {	
+		
+		var post_data = {"title": "exampliukas","geras":"vardas"}
+		var post_data = $('#test_form').serialize();
+		callAjax('ajax.php',post_data, successMethod);	
+		return;
 	});
 });
 	
